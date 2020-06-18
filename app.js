@@ -1,6 +1,7 @@
 var stuff = require('./stuff');
-var event = require('events');
+var events = require('events');
 var util = require('util');
+var fs = require('fs');
 console.log(__dirname);
 console.log(__filename);
 var t=0;
@@ -36,7 +37,7 @@ function callFunction(fun)
 }
 
 //event emitter example
-var myEmitter = new event.EventEmitter();
+var myEmitter = new events.EventEmitter();
 //below is the listener
 myEmitter.on('someEvent',function(msg){
     console.log(msg);
@@ -46,7 +47,7 @@ myEmitter.on('someEvent',function(msg){
 myEmitter.emit('someEvent','we are emitting through event-emitter'); 
 
 //creates class that inherits events.EventsEmitter
-class Person extends event.EventEmitter{
+class Person extends events.EventEmitter{
     constructor(name){
         super();
         
@@ -73,3 +74,26 @@ peopleArray.forEach(function(person){
 peopleArray.forEach(function(person){
     person.emit('speak'," hello ");
 });
+
+//reading file, blocking code, have to execute this line before going forward, synchronous versions
+var readMe = fs.readFileSync('readme.txt','utf8');
+console.log(readMe);
+
+fs.writeFileSync('writeme.txt',readMe);
+
+//async version of reading n writing. need a callBack function to fire when the process is complete
+fs.readFile('readme.txt','utf8',function(err,data){
+    console.log('in async version');
+    console.log(data);
+    fs.writeFile('writeme.txt',data,function(err){});
+});
+console.log('test'); // test gets printed first, which takes place WHILE the file is being read
+//this async can handle multiple requests faster, as it is non-blocking
+
+//this deletes the file. have to check if file exists before deleting, else error.
+//fs.unlink('writeme.txt',function(err){});
+//make and remove directories synchronous
+//fs.mkdir('stuff',function(err){});
+//fs.rmdirSync('stuff');
+//remove files before removing directory
+
