@@ -1,4 +1,4 @@
-var count = require('./counter');
+var stuff = require('./stuff');
 
 console.log(__dirname);
 console.log(__filename);
@@ -11,7 +11,8 @@ var timer = setInterval(() => {
         clearInterval(timer);
         sayHi();
         callFunction(sayBye);
-        console.log(count(['kaustubh','raghavendrarao','deshpande']));
+        console.log(stuff.counter(['kaustubh','raghavendrarao','deshpande']));
+        console.log(stuff.adder(stuff.pi,12));
         
     }
 
